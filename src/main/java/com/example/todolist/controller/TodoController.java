@@ -102,4 +102,33 @@ public class TodoController {
 
         return ResponseEntity.ok().body(response);
     }
+    @DeleteMapping
+    public ResponseEntity<?> deleteTodoList(@RequestBody TodoDTO dto){
+        try {
+            String temporaryUserId = "temporary-user"; //temporary user Id.
+
+            // 1.TodoEntity로 변환
+            TodoEntity entity = TodoDTO.todoEntity(dto);
+
+            // 2.임시 사용자 아이디 설정
+            entity.setUserId(temporaryUserId);
+
+            // 3.entity삭제
+            List<TodoEntity> entities = service.delete(entity);
+
+            // 4.todoDto로 변환
+            List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
+
+            // 5.response초기화
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder()
+                    .data(dtos).build();
+
+            // 6.리턴
+            return ResponseEntity.ok().body(response);
+        }catch (Exception e){
+            String error = e.getMessage();
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }

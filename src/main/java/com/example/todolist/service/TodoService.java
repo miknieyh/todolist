@@ -55,6 +55,18 @@ public class TodoService {
 
         return retireve(entity.getUserId());
     }
+
+    public List<TodoEntity> delete(final TodoEntity entity) {
+        vallidate(entity);
+
+        try {
+            repository.delete(entity);
+        }catch (Exception e){
+            log.error("error deleting entity {}",entity.getId(),e);
+            throw new RuntimeException("error deleting entity " + entity.getUserId());
+        }
+        return retireve(entity.getUserId());
+    }
     private void vallidate(final TodoEntity entity) {
         if(entity == null) {
             log.warn("Entity cannot be null.");
