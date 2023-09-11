@@ -88,7 +88,7 @@ public class TodoController {
         TodoEntity entity = TodoDTO.todoEntity(dto);
 
         // 2.id 초기화
-        entity.setId(temporaryUserId);
+        entity.setUserId(temporaryUserId);
 
         // 3.업데이트
         List<TodoEntity> entities = service.update(entity);
