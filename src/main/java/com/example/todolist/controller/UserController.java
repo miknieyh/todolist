@@ -5,7 +5,6 @@ import com.example.todolist.dto.UserDTO;
 import com.example.todolist.model.UserEntity;
 import com.example.todolist.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class UserService {
+
     @Autowired
     private UserRepositoty repositoty;
 
@@ -25,6 +26,6 @@ public class UserService {
     }
 
     public UserEntity getByCredentials( final String email,final String password){
-        return repositoty.findByEmailAAndPassword(email,password);
+        return repositoty.findByEmailAndPassword(email,password);
     }
 }
