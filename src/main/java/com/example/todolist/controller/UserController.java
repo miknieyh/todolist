@@ -3,6 +3,7 @@ package com.example.todolist.controller;
 import com.example.todolist.dto.ResponseDTO;
 import com.example.todolist.dto.UserDTO;
 import com.example.todolist.model.UserEntity;
+import com.example.todolist.security.TokenProvider;
 import com.example.todolist.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO){
@@ -50,9 +54,12 @@ public class UserController {
         );
 
         if(user != null){
+            //토큰 생성
+            final String token = tokenProvider.create(user);
             final UserDTO responseUserDTO = UserDTO.builder()
                     .email(user.getEmail())
                     .id(user.getId())
+                    .token(token)
                     .build();
             return ResponseEntity.ok(responseUserDTO);
         }else {
